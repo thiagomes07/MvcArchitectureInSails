@@ -35,17 +35,11 @@
    - **Nome:** Nome da linha de montagem.
    - **Descrição:** Descrição da linha de montagem.
 
-As relações entre as entidades são as seguintes:
-
+#### Relacionamentos:
 - Um curso pode ter muitas tarefas associadas a ele (relação 1 para N entre CURSO e TODO).
 - Um funcionário pode ter muitas tarefas (relação 1 para N entre FUNCIONARIO e TODO).
 - Um funcionário pode estar associado a uma ou várias linhas de montagem (relação 1 para N entre FUNCIONARIO e LINHAMONTAGEM_ALUNO).
 - Uma linha de montagem pode ter muitos funcionários associados a ela (relação 1 para N entre LINHAMONTAGEM e LINHAMONTAGEM_ALUNO).
-
-
-#### Relacionamentos:
-- Descreva as entidades do seu projeto e seus atributos.
-- Explique as relações entre as entidades.
 
 ### Controladores (Controllers):
 - Liste os controladores do seu projeto e suas responsabilidades.
