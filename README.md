@@ -3,6 +3,7 @@
 
 <img src="assets/MvcArchitectureDiagram.svg" style="max-width:100%; height:auto;" alt="Diagrama da arquitetura MVC do Edellcation">
 
+## MVC
 ### Modelos (Models):
 1. **CURSO:**
    - **ID:** Identificador único do curso (chave primária).
@@ -22,7 +23,7 @@
 3. **FUNCIONARIO:**
    - **ID:** Identificador único do funcionário (chave primária).
    - **Nome:** Nome do funcionário.
-   - **Email:** Endereço de e-mail do funcionário.
+   - **E-mail:** Endereço de e-mail do funcionário.
    - **Senha (criptografada):** Senha criptografada do funcionário para fins de autenticação.
    - **Tipo de usuário:** Indicação se o funcionário é um membro ou administrador.
 
@@ -34,6 +35,7 @@
    - **Id:** Identificador único da linha de montagem (chave primária).
    - **Nome:** Nome da linha de montagem.
    - **Descrição:** Descrição da linha de montagem.
+   - **Produto:** Produto montado na linha de montagem.
 
 #### Relacionamentos:
 - Um curso pode ter muitas tarefas associadas a ele (relação 1 para N entre CURSO e TODO).
@@ -45,10 +47,10 @@
 ### Controladores (Controllers):
 #### AuthController:
 - **login():** Método responsável por autenticar um usuário na aplicação.
-   - Entrada: Nome de usuário (ou email) e senha.
+   - Entrada: Nome de usuário (ou e-mail) e senha.
    - Saída: Redirecionamento para a página inicial ou mensagem de erro.
 - **register():** Método para registrar um novo usuário na aplicação.
-   - Entrada: Dados do novo usuário (nome, email, senha, etc.).
+   - Entrada: Dados do novo usuário (nome, e-mail, senha, etc.).
    - Saída: Redirecionamento para a página de login ou mensagem de erro.
 
 Interage com o modelo Funcionário para autenticar e registrar usuários. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
@@ -98,16 +100,21 @@ Interage com o modelo Funcionário para obter e atualizar as informações do pe
 #### AdminController:
 - **index():** Método para exibir o painel de administração com estatísticas e funcionalidades administrativas.
    - Entrada: Nenhum.
-Saída: Renderização da página do painel de administração.
+   - Saída: Renderização da página do painel de administração.
 - **editLines():** Método para editar as linhas de montagem (somente para administradores).
-Entrada: ID da linha de montagem e dados atualizados.
-Saída: Redirecionamento para a página de edição ou mensagem de erro.
-- **editCourses():** Método para editar os cursos (somente para administradores).
-Entrada: ID do curso e dados atualizados.
-Saída: Redirecionamento para a página de edição ou mensagem de erro.
-- **editUsers():** Método para editar os usuários (somente para administradores).
-Entrada: ID do usuário e dados atualizados.
-Saída: Redirecionamento para a página de edição ou mensagem de erro.
+   - Entrada: ID da linha de montagem e dados atualizados.
+- **createLines():** Método para criar uma nova linha de montagem (somente para administradores).
+   - Entrada: Dados do da linha de montagem (nome, funcionários, descrição, produto alvo, etc.).
+   - Saída: Feedback de sucesso ou mensagem de erro.
+- **deletLines():** Método para deletar um curso (somente para administradores).
+   - Entrada: Id do curso.
+   - Saída: Feedback de sucesso ou mensagem de erro.
+- **showLines():** Método para visualizaer todas as linhas de montagem (somente para administradores).
+   - Entrada: nenhum (busca todos as linhas)
+   - Saída: Lista de linhas.
+- **showUsers():** Método para visualizar os usuários existentes (somente para administradores).
+   - Entrada: nenhum (busca todos os usuários)
+   - Saída: Lista de usuários.
 
 Interage com os modelos LinhaMontagem, Curso e Funcionário para editar e gerenciar linhas de montagem, cursos e usuários. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
 
@@ -115,7 +122,7 @@ Interage com os modelos LinhaMontagem, Curso e Funcionário para editar e gerenc
 ### Views (Views):
 - Tela de login e cadastro:
    - Função: Permitir que os usuários façam login na aplicação ou se cadastrem como novos usuários.
-   - Contém campos para entrada de email, senha e opção de registro.
+   - Contém campos para entrada de e-mail, senha e opção de registro.
 - Homepage:
    - Função: Exibir uma visão geral dos cursos disponíveis, to-dos do usuário, cursos recentemente acessados e cursos favoritos.
    - Pode conter carrosséis ou listas de cursos e to-dos.
@@ -126,218 +133,46 @@ Interage com os modelos LinhaMontagem, Curso e Funcionário para editar e gerenc
    - Função: Mostrar detalhes de um curso específico, incluindo materiais de estudo, descrição do curso, produto alvo, etc.
    - Pode conter links para download de materiais, visualização de vídeos, etc.
 - Perfil:
-   - Função: Exibir informações do perfil do usuário, como nome, email, histórico de cursos concluídos, etc.
+   - Função: Exibir informações do perfil do usuário, como nome, e-mail, histórico de cursos concluídos, etc.
    - Pode incluir opções para edição de informações do perfil.
 - Edição (somente para admin):
    - Função: Permitir que os administradores editem linhas de montagem, cursos, usuários e outras informações administrativas.
    - Pode conter formulários para edição de dados e opções de exclusão.
 
 
-### Infraestrutura:
+## Infraestrutura:
 
-- Descreva os componentes de infraestrutura do seu projeto, como bancos de dados, APIs externas e outras dependências.
-- Explique como a infraestrutura se integra à arquitetura MVC.
+- &nbsp;&nbsp;&nbsp;&nbsp;Banco de Dados PostgreSQL: O banco de dados PostgreSQL será usado para armazenar informações sobre os cursos, usuários, tarefas pendentes, estatísticas e outras informações relacionadas à aplicação.
+- &nbsp;&nbsp;&nbsp;&nbsp;API de Single Sign-On (SSO): Considerando a integração com sistemas internos de Single Sign-On (SSO), será necessário utilizar uma API de SSO que permita aos usuários autenticarem-se na aplicação utilizando as credenciais de suas contas corporativas.
+- &nbsp;&nbsp;&nbsp;&nbsp;Serviço de Armazenamento de Arquivos: Para armazenar documentos, imagens, vídeos e modelos 3D associados aos cursos, pode ser necessário utilizar um serviço de armazenamento de arquivos, como Amazon S3 ou Google Cloud Storage.
+- &nbsp;&nbsp;&nbsp;&nbsp;Microsserviços e Containers: De acordo com os requisitos não funcionais, o sistema deve ser distribuído em vários servidores e baseado em microsserviços. Portanto, será necessário configurar uma arquitetura de microsserviços usando containers, como Docker, e um orquestrador de containers, como Kubernetes, para gerenciar e escalar os serviços da aplicação.
+- &nbsp;&nbsp;&nbsp;&nbsp;Sistema de Cache: Para melhorar o desempenho da aplicação, pode ser necessário implementar um sistema de cache para armazenar conteúdos mais acessados, como arquivos e vídeos, utilizando tecnologias como Redis ou Memcached.
+- &nbsp;&nbsp;&nbsp;&nbsp;Serviço de Notificações: Para enviar notificações aos usuários sobre atualizações nos cursos ou outras informações importantes, pode ser necessário integrar um serviço de notificações por e-mail e push, como Amazon SES ou Firebase Cloud Messaging.
+- &nbsp;&nbsp;&nbsp;&nbsp;Serviços de Monitoramento e Log: Para monitorar o desempenho e a disponibilidade da aplicação, bem como para rastrear eventos e registros, pode ser necessário integrar serviços de monitoramento e log, como Prometheus e Grafana, ou ELK Stack (Elasticsearch, Logstash, Kibana).
+- &nbsp;&nbsp;&nbsp;&nbsp;Ambiente de Desenvolvimento e Implantação: Será necessário configurar um ambiente de desenvolvimento e implantação para o projeto, incluindo ferramentas de controle de versão, como Git, e ferramentas de integração contínua e implantação contínua (CI/CD), como Jenkins ou GitLab CI.
+
+### Relação da infraestrutura com o MVC
+- &nbsp;&nbsp;&nbsp;&nbsp;Model (Modelo):
+O Modelo é responsável pela representação dos dados da aplicação. No caso deste projeto, o Modelo seria representado pelas entidades do banco de dados PostgreSQL, como Curso, Funcionário, LinhaMontagem, etc. Estas entidades refletem a estrutura dos dados da aplicação e são manipuladas pelos controladores para realizar operações de leitura, escrita, atualização e exclusão (CRUD).
+- &nbsp;&nbsp;&nbsp;&nbsp;View (Visão):
+A Visão é responsável pela apresentação dos dados aos usuários da aplicação. No contexto deste projeto, as Views seriam as interfaces de usuário (UI) implementadas em HTML, CSS e JavaScript. Elas são responsáveis por exibir os dados aos usuários de forma adequada, seguindo o layout responsivo e as diretrizes de design da empresa Dell.
+- &nbsp;&nbsp;&nbsp;&nbsp;Controller (Controlador):
+O Controlador é responsável por intermediar as interações entre o Modelo e a Visão. Ele recebe as requisições dos usuários, manipula os dados necessários no Modelo e determina qual Visão deve ser apresentada ao usuário como resposta. No contexto deste projeto, os Controladores seriam implementados em Node.js com o framework Sails.js, e seriam responsáveis por rotear as requisições HTTP para as ações adequadas, como autenticação de usuários, busca de cursos, criação de novos cursos, etc.
 
 
-### Justifique as escolhas feitas e como elas impactam o projeto.
-#### Implicações da Arquitetura:
-Descreva as implicações da arquitetura em termos de escalabilidade, manutenção, testabilidade e outros aspectos importantes.
-
-
-
-
-
-
-
-
-<!-- Estou desenvolvendo uma aplicação WEB em parceria com a dell. Analise o escopo do projeto:
-"
-PROJETO: Criação de uma aplicação web de treinamento para divulgar e a disponibilizar materiais técnicos (manuais) sobre o processo de
-montagem de diferentes produtos da empresa. Através de uma plataforma de treinamento específica, os funcionários que trabalham em linhas de
-produção podem aprender o processo eficiente de montagem de diversos produtos se mantendo atualizados sobre qualquer melhoria de processo.
-A aplicação deve disponibilizar diferentes tipos de materiais, tais como documentos, imagens, gravações de video, e modelos 3D possibilitando que
-os funcionários explorem todos os detalhes de montagem de cada tipo de produto. Através dessas funcionalidades, os funcionários podem aprender
-rapidamente processos específicos de montagem além de se manter atualizados quando uma alteração ocorre ou novos manuais são incluídos. A
-solução contempla tanto novos funcionários como aqueles que já trabalham na empresa por algum tempo e já tem conhecimento dos processos. Do
-ponto de vista de novos funcionários, a solução possibilita o aprendizado concentrado e específico dos processos de montagens dos produtos em que
-o funcionário irá trabalhar. Além disso, a solução permite que esses funcionários constantemente revisem e visualizem o processo de montagem
-acelerando o seu aprendizado. Do ponto de vista de funcionários que já tem conhecimento e trabalham há mais tempo, a solução permite que esses
-funcionários revisem manuais de produtos os quais eles já não trabalham há um tempo e possam ter esquecido algo. Além disso, processos podem
-mudar ao longo do tempo e atualizações em manuais permite que funcionários já treinados tenham conhecimento das alterações sempre que elas
-ocorrerem. Por fim, do ponto de vista da empresa, a solução contribui para a disseminação de informação e também para aumentar a eficiência das
-linhas de produção. Funcionários mais treinados e com melhor conhecimento dos processos tendem a cometer menos erros reduzindo o tempo de
-montagem dos produtos e aumentando a eficiência das linhas de montagem como um todo.
-EMPRESA: DELL
-luiz.brotto@dell.com
-vinicius.facco1@dell.com
-
-BREVE DESCRIÇÃO EMPRESA / MINI BIO:
-A Dell desenvolve, produz, dá suporte e vende uma grande variedade de computadores pessoais, servidores, notebooks, dispositivos
-de armazenamento, switches de rede, PDAs, software, periféricos e mais. Sua sede fica em Round Rock, Texas nos Estados Unidos. A
-empresa abriu sua fábrica em solo brasileiro na cidade de Eldorado do Sul no Rio Grande do Sul em novembro de 1999. Conta também
-com um centro de desenvolvimento de software sediado no polo Tecnopuc, da PUC-RS. No ano de 2006 foi anunciada a construção
-de uma nova fábrica na cidade de Hortolândia, interior de São Paulo. A partir de Agosto de 2007, Eldorado do Sul passou a sediar
-apenas a administração e toda a produção de (desktops, notebooks e servidores) foi transferida para Hortolândia.
-PROFESSOR ORIENTADOR: Claudio André
-
-OVERVIEW
-PROBLEMA: Treinamento de funcionários que trabalham nas linhas de montagem da fábrica da empresa .
-OBJETIVO: O objetivo desta iniciativa é disponibilizar uma plataforma de treinamento individual para os funcionários que trabalham nas linhas de
-montagem da empresa. A empresa monta diversos tipos de produtos, os quais possuem manuais de montagem que descrevem minusiosamente cada
-etapa de montagem e a ordem que elas devem ocorrer para aumentar a eficiência do processo. Através da solução proposta, os funcionários terão
-uma plataforma que concentra todas as informações importantes sobre o processo de montagem de cada equipamento, onde eles podem aprender
-novos processos e revisar conceitos já estudados para melhorar seu desempenho. Além disso, a solução também tem o objetivo de manter os
-funcionários atualizados sobre melhorias nos processos de montagem e a inclusão de novos manuais e atualização de materiais.
-BENEFÍCIOS ESPERADOS PARA O PARCEIRO: Esperamos que o projeto possa aumentar a eficiência das linhas de montagem e diminuir
-o tempo de aprendizagem dos funcionários sobre alterações, melhorias, e ajustes nos processos de montagem.
-MATERIAIS DE ESTUDOS ANEXADOS (detalhar):
-
-ESCOPO MACRO
-Público Alvo:
-• Funcionários Dell Technologies que trabalham na fábrica da empresa e tem conhecimento das linhas de montagem de
-produtos da empresa (computadores, servidores, notebooks).
-• Gestores das linhas de produção da fábrica da Dell Technologies.
-• Será validado por funcionários de diferentes cargos da mesma empresa (Dell), gestores e engenheiros.
-Requisitos funcionais:
-
-Internal Use - Confidential
-
-• Permitir que os usuários se cadastrem e façam login na aplicação - considerar incluir integração Single Sign On (SSO).
-• Permitir a criação de dois tipos de perfis: membros e administradores.
-• Permitir a administradores a inclusão de novos manuais (não permitir a inclusão de manuais duplicados) ou a atualização
-de conteúdos de manuais já cadastrados.
-• Disponibilizar um catálogo de manuais com informações específicas sobre o produto a que se refere.
-• Disponibilizar para os usuários uma lista de a fazer com manuais a serem estudados.
-• Permitir que administradores incluam manuais nas listas de a fazer dos funcionários.
-• Permitir que usuários façam buscas de manuais.
-• Permitir que os usuários adicionem manuais a uma lista de favoritos.
-• Exibir informações detalhadas de cada manual incluindo metadados (nome, data, versão, produto alvo, etc.).
-• Possibilitar a inclusão de documentos (PDF, txt, Word, etc.), imagens, videos, e modelos 3D para cada manual.
-• Permitir usuários marcarem manuais como estudados/visualizados.
-• Notificar (email e através da aplicação web) usuários que já estudaram/visualizaram manuais quando houver alguma
-atualização nos metadados ou materiais do manual.
-• Disponibilizar histórico de estudo/visualização para cada usuário.
-• Manter estatísticas para cada manual e apresentar junto com suas informações detalhadas (visualizações, funcionários que
-estudaram, etc.).
-• Página de perfil para cada funcionário com seus manuais publicados.
-• Permitir a visualização dos materiais (documentos, videos, imagens, modelos 3D) incluídos para cada manual.
-• Possibilitar administradores visualizarem as estatísticas de leitura/visualização dos manuais de forma consolidada.
-Requisitos não funcionais:
-• O tempo de carregamento das páginas deve ser rápido independente da quantidade de usuários acessando a aplicação.
-• O sistema deve ser capaz de lidar com um grande número de solicitações simultâneas e ser facilmente escalado para lidar
-com mais solicitações à medida que o tráfego aumenta.
-• O sistema deve ser altamente disponível e resistente a falhas de hardware e software.
-• O sistema deve ser distribuído em vários servidores e baseado em microsserviços.
-• O sistema deve ser desenvolvido e implantado com o uso de containers, gerenciadores de containers, tecnologias serverless
-e sistemas de mensageria.
-• Deve ser possível escalar serviços da aplicação de acordo com o nível de utilização de recursos de cada serviço (CPU,
-memória, rede, etc.).
-Design:
-• Interface de usuário intuitiva e fácil de navegar.
-• Design limpo seguindo o design system da empresa. (https://www.delldesignsystem.com/)
-• Layout responsivo que se adapta a diferentes dispositivos e tamanhos de tela.
-Desenvolvimento:
-• Desenvolvimento de uma aplicação web responsiva para hospedar e disponibilizar manuais de montagem de
-computadores (PCs, servidores, notebooks).
-• Implementação de um banco de dados para armazenar informações sobre manuais (metadados, arquivos, videos,
-estatísticas) e usuários (informações pessoais, estatístics, favoritos).
-• Implementação de sistema de cache para armazenar conteúdos mais acessados (arquivos, vídeos) para aumentar o
-desempenho.
-
-Internal Use - Confidential
-
-• Desenvolvimento de funcionalidades para publicar, editar, e excluir manuais.
-• Configuração de um sistema de notificações para manter os usuários informados sobre atualizações em manuais.
-Testes:
-• Teste do aplicativo web em diferentes navegadores e dispositivos para garantir que ele funcione corretamente em todos
-os cenários.
-• Testes de unidade para garantir que cada funcionalidade seja implementada corretamente.
-• Testes de integração para garantir que as diferentes partes do sistema se integrem corretamente.
-• Testes de aceitação do usuário para garantir que o aplicativo web atenda às necessidades dos usuários.
-
-MVP
-Aplicação web de treinamento.
-Home: página inicial apresentando uma barra de busca de manuais e uma lista dos últimos manuais acessados pelo usuário.
-Favoritos: funcionalidade listando todos os manuais adicionados como favoritos pelo usuário (se houver).
-A fazer (to-do): lista os manuais pendentes de estudo que devem ser obrigatoriamente estudados pelo usuário. Administradores
-podem editar essas listas adicionando ou removendo manuais a serem estudados.
-Manuais (apenas administradores): funcionalidade que permite administradores visualizarem manuais cadastrados e suas
-estatísticas de forma gráfica (quantidade de leituras/visualizações, acessos, quantidades por período – mês, semana, ou ano). Além
-disso, a funcionalidade também permite cadastrar/editar manuais e também registrar o manual na lista de a fazer dos usuários (pode
-ser por grupo de usuários).
-Manual: funcionalidade que permite usuários acessarem todas as informações de um manual específico e fazer o consumo de todos
-os materiais (documentos, videos, imagens, modelos 3D). Essa é o local de aprendizagem dos usuários que eles utilizam para estudar
-um manual de montagem.
-Perfil: funcionalidade que permite usuários visualizarem suas informações pessoais, histórico de manuais lidos/visualizados, e
-estatísticas de forma gráfica (manuais lidos/visualizados ao longo do tempo, quantidades por período – mês, semana, ou ano).
-Tendências: funcionalidade que lista os principais manuais (top X) do momento de acordo com a quantidade de acessos e
-leituras/visualizações.
-Notificações: funcionalidade que envia e lista todas as notificações lidas e não lidas pelo usuário. Além disso, as notificações devem
-conter o link para acesso ao manual a que se refere.
-Painel: administradores podem visualizar um painel que condensa diversas estatísticas de forma gráfica, incluindo os principais
-manuais estudados, lista de pendências de manuais a fazer por funcionários, percentual de conclusão de manuais a fazer, etc.
-ENTREGÁVEIS DESEJÁVEIS
-Diagramas de design da solução incluindo a arquitetura conceitual e implantação adotada.
-Tutorial descrevendo o projeto incluindo informações de como implantar (passo a passo para implantar a solução).
-Código-fonte do protótipo incluindo manifestos de implantação dos containers.
-
-PRÉ-REQUISITOS DO PROJETO
-- A solução contempla integração com sistemas internos de single sign on (SSO);
-"
-
-Fiz o seguinte modelo conceitual do banco de dados:
-"
-CURSO:
-ID: Identificador único do curso (chave primária).
-Nome: Nome do curso.
-Tipo de material: Tipo de material presente no curso (documento, imagem, vídeo, modelo 3D).
-Arquivo (ou link para o arquivo): Caminho para o arquivo ou link para o material.
-Produto Alvo: Produto ao qual o curso se refere.
-Data de Publicação: Data em que o curso foi publicado.
-
-TODO:
-ID: Identificador único da tarefa (chave primária).
-ID do usuário: Identificador do usuário associado à tarefa (chave estrangeira referenciando a entidade Usuário).
-ID do curso: Identificador do curso associado à tarefa (chave estrangeira referenciando a entidade CURSO).
-Status: Status da tarefa (pendente, concluído).
-Data de atribuição: Data em que a tarefa foi atribuída ao usuário.
-
-FUNCIONARIO:
-ID: Identificador único do funcionário (chave primária).
-Nome: Nome do funcionário.
-Email: Endereço de e-mail do funcionário.
-Senha (criptografada): Senha criptografada do funcionário para fins de autenticação.
-Tipo de usuário: Indicação se o funcionário é um membro ou administrador.
-
-LINHAMONTAGEM_ALUNO:
-IdAluno: Identificador do aluno (chave estrangeira referenciando a entidade FUNCIONARIO).
-IdLinhaMontagem: Identificador da linha de montagem (chave estrangeira referenciando a entidade LINHAMONTAGEM).
-
-LINHAMONTAGEM:
-Id: Identificador único da linha de montagem (chave primária).
-Nome: Nome da linha de montagem.
-Descrição: Descrição da linha de montagem.
-
-Relacionamentos:
-Um curso pode ter muitas tarefas associadas a ele (relação 1 para N entre CURSO e TODO).
-Um funcionário pode ter muitas tarefas (relação 1 para N entre FUNCIONARIO e TODO).
-Um funcionário pode estar associado a uma ou várias linhas de montagem (relação 1 para N entre FUNCIONARIO e LINHAMONTAGEM_ALUNO).
-Uma linha de montagem pode ter muitos funcionários associados a ela (relação 1 para N entre LINHAMONTAGEM e LINHAMONTAGEM_ALUNO).
-"
-
-Vou te explicar o wireframe da aplicação:
-"
-Tela de login e cadastro - o usuário pode criar uma conta ou entrar com a sua no sistema
-
-homepage - lista to-do dos cursos do usuário, carrossel com os cursos novos, carrossel com os acessados por último e carrossel com os cursos favoritos
-
-lista de cursos - lista todos cursos possibilitando a filtragem por pesquisa ou outras características.
-
-curso - exibição completa do curso, exibição dos materiais e possibilidade de marcar curso como concluído
-
-perfil - exibição de informações do usuário além da possibilidade dele alterá-las
-
-edição (tela exibida somente ao admin) - nela o admin vai poder visualizar, editar, alterar e apagar tanto as linhas de montagem quanto os cursos. Também será possível visualizar os funcionários e suas atividades
-"
-
-Ajude-me a fazer um diagrama MVC desta aplicação WEB. -->
+### Escolha de arquitetura
+- Node.js com Sails.js:
+Escolha justificada pela eficiência e escalabilidade do Node.js para lidar com operações de I/O intensivas, como as requisições HTTP em uma aplicação web. O framework Sails.js, por sua vez, proporciona uma estrutura MVC robusta e convenções de desenvolvimento que aceleram o processo de desenvolvimento, facilitando a criação de API RESTful e a integração com o banco de dados PostgreSQL.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Escalabilidade: Node.js é conhecido por sua capacidade de lidar com um grande número de conexões simultâneas devido ao seu modelo de I/O não bloqueante. Isso permite que a aplicação seja facilmente escalada horizontalmente para lidar com aumento de tráfego.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Manutenção: A estrutura MVC do Sails.js facilita a manutenção do código, pois organiza logicamente as diferentes partes da aplicação. Além disso, a comunidade ativa e os recursos de documentação do Node.js e do Sails.js facilitam a resolução de problemas e a implementação de novos recursos.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Testabilidade: O Node.js é altamente testável, com suporte para frameworks de teste como Mocha, Jest e Jasmine. A estrutura MVC também ajuda na separação de preocupações, o que facilita a escrita de testes unitários e de integração.
+- PostgreSQL como Banco de Dados:
+Escolha justificada pela robustez, confiabilidade e capacidade de escalabilidade do PostgreSQL. Além disso, o PostgreSQL oferece suporte a recursos avançados, como transações ACID, índices avançados e suporte a JSON, que são úteis para aplicativos de negócios complexos.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Escalabilidade: O PostgreSQL é altamente escalável, permitindo que a aplicação cresça à medida que a demanda aumenta. Estratégias como particionamento de tabelas e replicação podem ser implementadas para distribuir a carga de trabalho e melhorar o desempenho.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Manutenção: O PostgreSQL é amplamente utilizado e bem documentado, o que facilita a manutenção e o gerenciamento do banco de dados. Além disso, sua comunidade ativa e regularmente atualizada significa que problemas de segurança e bugs são rapidamente corrigidos.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Testabilidade: O PostgreSQL suporta testes de unidade e integração através de bibliotecas como pgTAP e pgTAP-like. Além disso, é possível configurar facilmente bancos de dados de teste para garantir que os testes não afetem o ambiente de produção.
+- HTML5, CSS3, Bootstrap e JavaScript para Front-end:
+Escolha justificada pela familiaridade e ampla adoção dessas tecnologias, o que facilita o desenvolvimento de uma interface de usuário intuitiva e responsiva. O uso do Bootstrap permite uma rápida prototipagem e desenvolvimento de UIs consistentes.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Escalabilidade: O front-end desenvolvido com essas tecnologias é facilmente escalável, especialmente quando combinado com uma estrutura back-end escalável como o Node.js. A otimização de recursos, como imagens e scripts, pode ajudar a melhorar o desempenho em casos de alta carga.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Manutenção: O desenvolvimento com HTML5, CSS3 e JavaScript permite uma manutenção simplificada, especialmente quando aplicadas boas práticas de organização de código e modularização. O uso do Bootstrap também facilita a manutenção ao fornecer componentes pré-construídos e estilos consistentes.
+   - &nbsp;&nbsp;&nbsp;&nbsp;Testabilidade: As tecnologias front-end escolhidas são altamente testáveis, com suporte para frameworks de teste como Jest, Jasmine e Selenium para testes de unidade, integração e e2e.
