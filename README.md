@@ -5,6 +5,9 @@
 
 > **Observação:** Não foi representada visualmente as relações entre as tabelas do Model e as tabelas do Controller para evitar poluir o diagrama e torná-lo confuso.
 
+[Diagrama em PDF](assets/MvcArchitectureDiagram.pdf)</br>
+[Diagrama em PNG](assets/MvcArchitectureDiagram.png)
+
 ## MVC
 ### Modelos (Models):🗄️
 1. **CURSO:**
