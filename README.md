@@ -3,7 +3,7 @@
 
 <img src="assets/MvcArchitectureDiagram.svg" style="max-width:100%; height:auto;" alt="Diagrama da arquitetura MVC do Edellcation">
 
-> **Observação:** Não foi representada visualmente as relações entre Model e Controller para evitar poluir o diagrama e torná-lo confuso.
+> **Observação:** Não foi representada visualmente as relações entre as tabelas do Model e as tabelas do Controller para evitar poluir o diagrama e torná-lo confuso.
 
 ## MVC
 ### Modelos (Models):🗄️
