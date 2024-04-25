@@ -1,7 +1,8 @@
 # Esboço da Arquitetura MVC do Edellcation 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O Edellcation é uma Aplicação Web desenvolvida seguindo a arquitetura MVC (Model-View-Controller), com seu esboço elaborado no draw.io. Esta aplicação foi criada para proporcionar aos funcionários das linhas de montagem um acesso fácil e eficiente a materiais técnicos e manuais de montagem de produtos da empresa, como computadores, servidores e notebooks. A plataforma permite que os funcionários estudem, revisem e acompanhem os processos de montagem de forma individualizada, ao mesmo tempo em que os mantêm atualizados sobre quaisquer alterações nos procedimentos ou inclusão de novos manuais.
 
-<img src="assets/MvcArchitectureDiagram.svg" style="max-width:100%; height:auto;" alt="Diagrama da arquitetura MVC do Edellcation">
+<img src="assets/MvcArchitectureDiagram.sv
+G" style="max-width:100%; height:auto;" alt="Diagrama da arquitetura MVC do Edellcation">
 
 ## MVC
 ### Modelos (Models):
@@ -59,12 +60,6 @@ Interage com o modelo Funcionário para autenticar e registrar usuários. Retorn
 - **index():** Método para exibir a página inicial da aplicação.
    - Entrada: Nenhum.
    - Saída: Renderização da página inicial com os cursos disponíveis, to-dos, etc.
-- **show():** Método para exibir detalhes de um curso específico.
-   - Entrada: ID do curso.
-   - Saída: Renderização da página do curso com detalhes, materiais, etc.
-- **search():** Método para realizar uma pesquisa por cursos.
-   - Entrada: Termo de pesquisa.
-   - Saída: Renderização da página de resultados da pesquisa.
 
 Interage com o modelo Curso para obter informações sobre os cursos. Retorna os dados necessários para renderizar as visões correspondentes.
 
