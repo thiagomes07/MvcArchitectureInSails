@@ -1,10 +1,12 @@
-# Esboço da Arquitetura MVC do Edellcation 
+<h1 align="center">Arquitetura MVC do Edellcation</h1>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;O Edellcation é uma Aplicação Web desenvolvida seguindo a arquitetura MVC (Model-View-Controller), com seu esboço elaborado no draw.io. Esta aplicação foi criada para proporcionar aos funcionários das linhas de montagem um acesso fácil e eficiente a materiais técnicos e manuais de montagem de produtos da empresa, como computadores, servidores e notebooks. A plataforma permite que os funcionários estudem, revisem e acompanhem os processos de montagem de forma individualizada, ao mesmo tempo em que os mantêm atualizados sobre quaisquer alterações nos procedimentos ou inclusão de novos manuais.
 
 <img src="assets/MvcArchitectureDiagram.svg" style="max-width:100%; height:auto;" alt="Diagrama da arquitetura MVC do Edellcation">
 
+> **Observação:** Não foi representada visualmente as relações entre Model e Controller para evitar poluir o diagrama e torná-lo confuso.
+
 ## MVC
-### Modelos (Models):
+### Modelos (Models):🗄️
 1. **CURSO:**
    - **ID:** Identificador único do curso (chave primária).
    - **Nome:** Nome do curso.
@@ -44,7 +46,7 @@
 - Uma linha de montagem pode ter muitos funcionários associados a ela (relação 1 para N entre LINHAMONTAGEM e LINHAMONTAGEM_ALUNO).
 
 
-### Controladores (Controllers):
+### Controladores (Controllers):🖲️
 #### AuthController:
 - **login():** Método responsável por autenticar um usuário na aplicação.
    - Entrada: Nome de usuário (ou e-mail) e senha.
@@ -113,7 +115,7 @@ Interage com o modelo Funcionário para obter e atualizar as informações do pe
 Interage com os modelos LinhaMontagem, Curso e Funcionário para editar e gerenciar linhas de montagem, cursos e usuários. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
 
 
-### Views (Views):
+### Views (Views):👁️
 - Tela de login e cadastro:
    - Função: Permitir que os usuários façam login na aplicação ou se cadastrem como novos usuários.
    - Contém campos para entrada de e-mail, senha e opção de registro.
