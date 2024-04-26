@@ -50,73 +50,83 @@
 
 
 ### Controladores (Controllers):🖲️
-#### AuthController:
-- **login():** Método responsável por autenticar um usuário na aplicação.
-   - Entrada: Nome de usuário (ou e-mail) e senha.
-   - Saída: Redirecionamento para a página inicial ou mensagem de erro.
-- **register():** Método para registrar um novo usuário na aplicação.
-   - Entrada: Dados do novo usuário (nome, e-mail, senha, etc.).
-   - Saída: Redirecionamento para a página de login ou mensagem de erro.
+#### AuthController (Controlador de Autenticação)
+- **register(nome: string, email: string, senha: string, tipoUsuario: string)**: Registra um novo usuário.
+  - Entrada: `nome`, `email`, `senha`, `Cargo`
+  - Saída: Mensagem de sucesso ou erro, detalhes do usuário registrado.
 
-Interage com o modelo Funcionário para autenticar e registrar usuários. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
+  O AuthController gerencia as operações de autenticação e registro de usuários, interagindo com o modelo de Funcionário para registrar novos usuários e validar credenciais de acesso.
 
-#### HomeController:
-- **index():** Método para exibir a página inicial da aplicação.
-   - Entrada: Nenhum.
-   - Saída: Renderização da página inicial com os cursos disponíveis, to-dos, etc.
+#### UserController (Controlador de Usuário)
+- **viewProfile(idUsuario: int)**: Exibe o perfil do usuário.
+  - Entrada: `idUsuario`
+  - Saída: Detalhes do perfil do usuário.
+- **editProfile(idUsuario: int, novosDados: object)**: Permite ao usuário editar seu perfil.
+  - Entrada: `idUsuario`, `novosDados` (objeto contendo os campos editáveis)
+  - Saída: Perfil atualizado, mensagem de sucesso ou erro.
 
-Interage com o modelo Curso para obter informações sobre os cursos. Retorna os dados necessários para renderizar as visões correspondentes.
+  O UserController lida com as operações relacionadas aos perfis de usuário, permitindo a visualização e edição de perfis. Ele se comunica com o modelo de Funcionário para acessar e atualizar informações de perfil.
 
-#### CursoController:
-- **index():** Método para listar todos os cursos disponíveis.
-   - Entrada: Nenhum.
-   - Saída: Renderização da página com a lista de cursos.
-- **show():** Método para exibir detalhes de um curso específico (mesmo método que HomeController.show()).
-   - Entrada: ID do curso.
-   - Saída: Renderização da página do curso com detalhes, materiais, etc.
-- **create():** Método para criar um novo curso (somente para administradores).
-   - Entrada: Dados do curso (nome, tipo de material, arquivo, produto alvo, etc.).
-   - Saída: Redirecionamento para a página de edição ou mensagem de erro.
-- **edit():** Método para editar um curso existente (somente para administradores).
-   - Entrada: ID do curso e dados atualizados.
-   - Saída: Redirecionamento para a página do curso ou mensagem de erro.
-- **delete():** Método para excluir um curso existente (somente para administradores).
-   - Entrada: ID do curso.
-   - Saída: Redirecionamento para a página de lista de cursos ou mensagem de erro.
+#### CourseController (Controlador de Curso)
+- **listCourses(filtro: object)**: Lista todos os cursos disponíveis com opção de filtragem.
+  - Entrada: `filtro` (objeto contendo critérios de filtragem)
+  - Saída: Lista de cursos.
+- **filterCourses(criterios: object)**: Aplica filtros específicos à lista de cursos.
+  - Entrada: `criterios` (objeto contendo critérios de filtragem)
+  - Saída: Lista de cursos filtrados.
+- **viewCourse(idCurso: int)**: Exibe detalhes completos de um curso.
+  - Entrada: `idCurso`
+  - Saída: Detalhes do curso.
+- **completeCourse(idCurso: int, idUsuario: int)**: Marca um curso como concluído.
+  - Entrada: `idCurso`, `idUsuario`
+  - Saída: Status do curso atualizado, mensagem de sucesso ou erro.
 
-Interage com o modelo Curso para criar, editar, listar e excluir cursos. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
+  O CoursoController é responsável pela gestão dos cursos disponíveis, permitindo a listagem, filtragem e visualização detalhada de cada curso. Ele interage com o modelo de Curso para acessar e exibir informações relevantes sobre os cursos.
 
-#### PerfilController:
-- **show():** Método para exibir o perfil do usuário.
-   - Entrada: Nenhum (o perfil é obtido a partir do usuário logado).
-   - Saída: Renderização da página de perfil com as informações do usuário.
-- **edit():** Método para editar as informações do perfil do usuário.
-   - Entrada: Dados atualizados do usuário.
-   - Saída: Redirecionamento para a página de perfil ou mensagem de erro.
+#### TaskController (Controlador de Tarefas)
+- **listTasks(idUsuario: int)**: Lista todas as tarefas associadas ao usuário.
+  - Entrada: `idUsuario`
+  - Saída: Lista de tarefas.
+- **viewTask(idTarefa: int)**: Exibe detalhes de uma tarefa específica.
+  - Entrada: `idTarefa`
+  - Saída: Detalhes da tarefa.
+- **updateTaskStatus(idTarefa: int, novoStatus: string)**: Atualiza o status de uma tarefa.
+  - Entrada: `idTarefa`, `novoStatus`
+  - Saída: Status da tarefa atualizado, mensagem de sucesso ou erro.
 
-Interage com o modelo Funcionário para obter e atualizar as informações do perfil do usuário. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
+  O TaskController gerencia as tarefas atribuídas aos usuários, possibilitando a listagem, visualização e atualização do status de cada tarefa. Ele se conecta ao modelo de TODO para acessar e modificar as tarefas associadas aos usuários.
 
-#### AdminController:
-- **index():** Método para exibir o painel de administração com estatísticas e funcionalidades administrativas.
-   - Entrada: Nenhum.
-   - Saída: Renderização da página do painel de administração.
-- **editLines():** Método para editar as linhas de montagem (somente para administradores).
-   - Entrada: ID da linha de montagem e dados atualizados.
-- **createLines():** Método para criar uma nova linha de montagem (somente para administradores).
-   - Entrada: Dados do da linha de montagem (nome, funcionários, descrição, produto alvo, etc.).
-   - Saída: Feedback de sucesso ou mensagem de erro.
-- **deletLines():** Método para deletar um curso (somente para administradores).
-   - Entrada: Id do curso.
-   - Saída: Feedback de sucesso ou mensagem de erro.
-- **showLines():** Método para visualizaer todas as linhas de montagem (somente para administradores).
-   - Entrada: nenhum (busca todos as linhas)
-   - Saída: Lista de linhas.
-- **showUsers():** Método para visualizar os usuários existentes (somente para administradores).
-   - Entrada: nenhum (busca todos os usuários)
-   - Saída: Lista de usuários.
+#### LineController (Controlador de Linha de Montagem)
+- **listAssemblyLines()**: (Admin) Lista todas as linhas de montagem.
+  - Entrada: Nenhuma
+  - Saída: Lista de linhas de montagem.
+- **viewAssemblyLine(idLinhaMontagem: int)**: (Admin) Exibe detalhes de uma linha de montagem.
+  - Entrada: `idLinhaMontagem`
+  - Saída: Detalhes da linha de montagem.
+- **editAssemblyLine(idLinhaMontagem: int, novosDados: object)**: (Admin) Edita uma linha de montagem.
+  - Entrada: `idLinhaMontagem`, `novosDados`
+  - Saída: Linha de montagem atualizada, mensagem de sucesso ou erro.
+- **deleteAssemblyLine(idLinhaMontagem: int)**: (Admin) Remove uma linha de montagem.
+  - Entrada: `idLinhaMontagem`
+  - Saída: Confirmação de remoção, mensagem de sucesso ou erro.
 
-Interage com os modelos LinhaMontagem, Curso e Funcionário para editar e gerenciar linhas de montagem, cursos e usuários. Retorna mensagens de erro ou redirecionamentos para as visões correspondentes.
+  O LineController é responsável pela administração das linhas de montagem, permitindo a listagem, visualização, edição e exclusão das linhas existentes. Ele interage com o modelo de Linhamontagem para acessar e manipular informações sobre as linhas de montagem.
 
+#### FuncController (Controlador de Funcionários)
+- **listEmployees()**: (Admin) Lista todos os funcionários.
+  - Entrada: Nenhuma
+  - Saída: Lista de funcionários.
+- **viewEmployee(idFuncionario: int)**: (Admin) Exibe detalhes de um funcionário.
+  - Entrada: `idFuncionario`
+  - Saída: Detalhes do funcionário.
+- **editEmployee(idFuncionario: int, novosDados: object)**: (Admin) Edita informações de um funcionário.
+  - Entrada: `idFuncionario`, `novosDados`
+  - Saída: Funcionário atualizado, mensagem de sucesso ou erro.
+- **deleteEmployee(idFuncionario: int)**: (Admin) Remove um funcionário.
+  - Entrada: `idFuncionario`
+  - Saída: Confirmação de remoção, mensagem de sucesso ou erro.
+
+  Por fim, o FuncController trata das operações relacionadas aos funcionários da empresa, possibilitando a listagem, visualização, edição e exclusão dos mesmos. Ele se comunica com o modelo de Funcionário para acessar e modificar os dados dos funcionários.
 
 ### Views (Views):👁️
 - Tela de login e cadastro:
